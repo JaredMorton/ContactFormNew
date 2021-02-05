@@ -9,11 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactForm.Data", "Contact
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactForm.Entities", "ContactForm.Entities\ContactForm.Entities.csproj", "{97522AB9-576C-4D69-9DF5-142CB78F1667}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF32E8E7-E74E-4F5C-AD2E-D2FFCB0DA6AA}"
-	ProjectSection(SolutionItems) = preProject
-		..\ContactForm_old\README.md = ..\ContactForm_old\README.md
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
