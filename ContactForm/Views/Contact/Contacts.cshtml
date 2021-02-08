@@ -25,7 +25,9 @@
         <table>
             <tr>
                 <th style="display:none;">ID</th>
+                <th class="webgrid-header">Prefix</th>
                 <th class="webgrid-header">First Name</th>
+                <th class="webgrid-header">Middle Name</th>
                 <th class="webgrid-header">Last Name</th>
                 <th class="webgrid-header">Street</th>
                 <th class="webgrid-header">City</th>
@@ -62,10 +64,22 @@
                             <td><input id="txtID" name="ContactID" type="text" /></td>
                         </tr>
                         <tr>
+                            <td>Prefix</td>
+                            <td>
+                                <input id="txtPrefix" name="Prefix" type="text" />
+                            </td>
+                        </tr>
+                        <tr>
                             <td>First Name</td>
                             <td>
-                                <input id="txtFirstName" name="FirstName" type="text" data-val-required="First Name is required." data-val="true" required/>
+                                <input id="txtFirstName" name="FirstName" type="text" data-val-required="First Name is required." data-val="true" required />
                                 <span data-valmsg-for="FirstName" data-valmsg-replace="true" style="color: red;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Middle Name</td>
+                            <td>
+                                <input id="txtMiddleName" name="MiddleName" type="text" />
                             </td>
                         </tr>
                         <tr>
@@ -114,7 +128,9 @@
         $('#btnSave').submit(function () {
             var contact = {
                 "ContactID": contactform.txtID.value,
+                "Prefix": contactform.txtPrefix.value,
                 "FirstName": contactform.txtFirstName.value,
+                "MiddleName": contactform.txtMiddleName.value,
                 "LastName": contactform.txtLastName.value,
                 "Address": {
                     "Street": contactform.txtStreet.value,
@@ -143,7 +159,9 @@
             $('#contacts').find('tr').on('dblclick', function () {
                 $("h4").text("Edit Contact");
                 $("#txtID").val($(this).find("#lblContactID")[0].value);
+                $("#txtPrefix").val($(this).find("#lblPrefix")[0].value);
                 $("#txtFirstName").val($(this).find("#lblFirstName")[0].value);
+                $("#txtMiddleName").val($(this).find("#lblMiddleName")[0].value);
                 $("#txtLastName").val($(this).find("#lblLastName")[0].value);
                 $("#txtStreet").val($(this).find("#lblStreet")[0].value);
                 $("#txtCity").val($(this).find("#lblCity")[0].value);
@@ -158,22 +176,43 @@
             $('#contacts').find('tr').on('click', function (data) {
 
                 if (data.target.type !== "button") 
-                    return;                
+                    return;    
 
-                var contactID = { "contactID": $(this).find("#lblContactID")[0].value };
+                if (data.target.textContent == "Delete") {
 
-                $.ajax({
-                    url: '/Contact/DeleteContact/',
-                    data: JSON.stringify(contactID),
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    error: function (data) {
-                        alert("Error deleting contact.");
-                    },
-                    complete: function () {
-                        window.location = '/Contact/Contacts/';
+                    var result = confirm("Are you sure you want to delete");
+                    if (result) {
+
+                        var contactID = { "contactID": $(this).find("#lblContactID")[0].value };
+
+                        $.ajax({
+                            url: '/Contact/DeleteContact/',
+                            data: JSON.stringify(contactID),
+                            type: 'POST',
+                            contentType: 'application/json; charset=utf-8',
+                            error: function (data) {
+                                alert("Error deleting contact.");
+                            },
+                            complete: function () {
+                                window.location = '/Contact/Contacts/';
+                            }
+                        });
                     }
-                });
+                }
+                else if (data.target.textContent == "Edit") {
+                    $("h4").text("Edit Contact");
+                    $("#txtID").val($(this).find("#lblContactID")[0].value);
+                    $("#txtPrefix").val($(this).find("#lblPrefix")[0].value);
+                    $("#txtFirstName").val($(this).find("#lblFirstName")[0].value);
+                    $("#txtMiddleName").val($(this).find("#lblMiddleName")[0].value);
+                    $("#txtLastName").val($(this).find("#lblLastName")[0].value);
+                    $("#txtStreet").val($(this).find("#lblStreet")[0].value);
+                    $("#txtCity").val($(this).find("#lblCity")[0].value);
+                    $("#txtState").val($(this).find("#lblState")[0].value);
+                    $("#txtZip").val($(this).find("#lblZip")[0].value);
+
+                    $("#contactModal").modal('show');
+                }
             });
         });
 
@@ -181,7 +220,9 @@
             $('#newContact').on('click', function () {
                 $("h4").text("New Contact")
                 $("#txtID").val("");
+                $("#txtPrefix").val("");
                 $("#txtFirstName").val("");
+                $("#txtMiddleName").val("");
                 $("#txtLastName").val("");
                 $("#txtStreet").val("");
                 $("#txtCity").val("");

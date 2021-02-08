@@ -42,7 +42,7 @@ namespace ContactForm.Entities
         }
     }
 
-    public class ContactDBInitializer : CreateDatabaseIfNotExists<ContactDataContext>
+    public class ContactDBInitializer : DropCreateDatabaseIfModelChanges<ContactDataContext>
     {
         protected override void Seed(ContactDataContext context)
         {

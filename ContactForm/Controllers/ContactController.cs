@@ -28,7 +28,9 @@ namespace ContactForm.Controllers
             var contacts = (from a in dc.Contacts
                                 where
                                         a.ContactID.ToString().Contains(search) ||
+                                        a.Prefix.Contains(search) ||
                                         a.FirstName.Contains(search) ||
+                                        a.MiddleName.Contains(search) ||
                                         a.LastName.Contains(search) ||
                                         a.Address.Street.Contains(search) ||
                                         a.Address.City.Contains(search) ||
